@@ -9,7 +9,6 @@ test.describe("Data Pool Tests", () => {
 	const poolName = "test data pool";
 
 	test("sign in", async ({ page }) => {
-		console.log(">>>>>", keycloakUsername, "***hidden***");
 
 		await signInViaKeycloak(page, keycloakUsername, keycloakPassword);
 		await expect(
@@ -53,7 +52,6 @@ test.describe("Data Pool Tests", () => {
 		const context = await browser.newContext();
 		const page = await context.newPage();
     page.on('dialog', dialog => {
-      console.log("dialog", dialog);
       return dialog.accept();
     });
 		try {
