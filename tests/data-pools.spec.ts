@@ -1,4 +1,3 @@
-
 import { expect, test } from "@playwright/test";
 
 import { signInViaKeycloak } from "./helpers/auth";
@@ -9,7 +8,6 @@ test.describe("Data Pool Tests", () => {
 	const poolName = "test data pool";
 
 	test("create data pool with initial analysis", async ({ page }) => {
-
 		await signInViaKeycloak(page, keycloakUsername, keycloakPassword);
 		await expect(
 			page.getByRole("heading", { name: "Ask Social Video Data" }),
@@ -38,7 +36,7 @@ test.describe("Data Pool Tests", () => {
 		await page.getByPlaceholder("Name").fill(poolName);
 		await page.getByPlaceholder("Description").fill("test description");
 		await page.getByRole("button", { name: "Create Data Pool" }).click();
-    await page.waitForLoadState('networkidle');
+		await page.waitForLoadState("networkidle");
 		expect(page.getByRole("heading", { name: poolName })).toBeVisible({
 			timeout: 200_000,
 		});
@@ -51,21 +49,20 @@ test.describe("Data Pool Tests", () => {
 	test.afterAll(async ({ browser }) => {
 		const context = await browser.newContext();
 		const page = await context.newPage();
-    page.on('dialog', dialog => {
-      return dialog.accept();
-    });
+		page.on("dialog", (dialog) => {
+			return dialog.accept();
+		});
 		try {
 			console.log("🧹 Starting test data cleanup...");
 
 			// Sign in again for cleanup
 			await signInViaKeycloak(page, keycloakUsername, keycloakPassword);
 
-			await page.goto("/projects"); 
+			await page.goto("/projects");
 
-      await page.locator('a[class="iconlink"]').first().click();
-      await page.getByRole('button', {name: 'Project Settings'}).click();
-      await page.getByRole('button', {name: 'Delete This Project'}).click();
-	
+			await page.locator('a[class="iconlink"]').first().click();
+			await page.getByRole("button", { name: "Project Settings" }).click();
+			await page.getByRole("button", { name: "Delete This Project" }).click();
 		} catch (error) {
 			console.warn("⚠️ Failed to clean up test data:", error);
 			// Don't throw to avoid masking actual test failures
