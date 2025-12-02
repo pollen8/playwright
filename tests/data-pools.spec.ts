@@ -8,7 +8,7 @@ test.describe("Data Pool Tests", () => {
 	const keycloakPassword = process.env.KEYCLOAK_PASSWORD || "";
 	const poolName = "test data pool";
 
-	test("sign in", async ({ page }) => {
+	test("create data pool with initial analysis", async ({ page }) => {
 
 		await signInViaKeycloak(page, keycloakUsername, keycloakPassword);
 		await expect(
